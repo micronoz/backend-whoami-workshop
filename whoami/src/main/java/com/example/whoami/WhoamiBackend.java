@@ -10,6 +10,7 @@ public class WhoamiBackend {
 	private static final Logger log = LoggerFactory.getLogger(WhoamiBackend.class);
 
 	public static void main(String[] args) {
+		log.info("Started server.");
 		SpringApplication.run(WhoamiBackend.class, args);
 	}
 

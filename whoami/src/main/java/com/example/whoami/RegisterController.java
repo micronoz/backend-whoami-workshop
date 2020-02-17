@@ -28,14 +28,14 @@ public class RegisterController {
 
   @RequestMapping("/api/v1/user/register")
   @ResponseBody
-  public Long registerUser(@RequestParam("userName") String userName, UserRepository uRep) {
+  public String registerUser(@RequestParam("userName") String userName, UserRepository uRep) {
     List<User> ret = this.uRep.findByUserName(userName);
     if (ret.size() != 0) {
       throw new UserNameTakenException();
     }
     User myUser = new User(userName);
     this.uRep.save(myUser);
-    log.info(String.format("Registered user: %s, with id: %d", userName, myUser.getId()));
+    log.info(String.format("Registered user: %s, with id: %s", userName, myUser.getId().toString()));
     return myUser.getId();
   }
 }

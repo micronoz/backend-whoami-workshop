@@ -1,15 +1,17 @@
 package com.example.whoami;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     private String userName;
 
     protected User() {
@@ -24,7 +26,7 @@ public class User {
         return String.format("Customer[id=%d, userName='%userName']", id, userName);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

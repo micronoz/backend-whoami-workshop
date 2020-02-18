@@ -13,6 +13,7 @@ public class User {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String userName;
+    private Boolean isAdmin;
 
     protected User() {
     }
@@ -21,9 +22,13 @@ public class User {
         this.userName = userName;
     }
 
+    public User(String userName, Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
     @Override
     public String toString() {
-        return String.format("Customer[id=%d, userName='%userName']", id, userName);
+        return String.format("User[id=%s, userName='%s', isAdmin='%s']", id, userName, isAdmin.toString());
     }
 
     public String getId() {
@@ -32,5 +37,9 @@ public class User {
 
     public String getUserName() {
         return userName;
+    }
+
+    public Boolean isAdmin() {
+        return isAdmin;
     }
 }

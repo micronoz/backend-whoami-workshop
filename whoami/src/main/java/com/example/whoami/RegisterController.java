@@ -30,12 +30,16 @@ public class RegisterController {
   @ResponseBody
   public String registerUser(@RequestParam("userName") String userName, UserRepository uRep) {
     List<User> ret = this.uRep.findByUserName(userName);
+    log.info(String.format("Found %d entries", ret.size()));
     if (ret.size() != 0) {
       throw new UserNameTakenException();
     }
-    User myUser = new User(userName);
+
+    User myUser = new User(userName, userName.equals(WhoamiBackend.adminUser));
     this.uRep.save(myUser);
-    log.info(String.format("Registered user: %s, with id: %s", userName, myUser.getId().toString()));
+
+    log.info(String.format("Registered user: %s, with id: %s and isAdmin: %s", userName, myUser.getId().toString(),
+        myUser.isAdmin().toString()));
     return myUser.getId();
   }
 }

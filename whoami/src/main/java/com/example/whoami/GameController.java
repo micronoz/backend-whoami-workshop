@@ -12,7 +12,14 @@ public class GameController {
     private UserRepository uRep;
     @Autowired
     private MessageRepository mRep;
-    public static Boolean isGameOn = false;
+    public static Boolean isGameOn;
 
-   
+    @PostMapping("/api/v1/game/status")
+    @ResponseBody
+    public Boolean getStatus(@RequestParam("id") String id) {
+        return isGameOn;
+    }
+
+    // @PostMapping("/api/v1/game/messages")
+    // public Boolean
 }

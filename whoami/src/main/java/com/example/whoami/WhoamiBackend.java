@@ -13,7 +13,6 @@ import java.io.File;
 @SpringBootApplication
 public class WhoamiBackend {
 	private static final Logger log = LoggerFactory.getLogger(WhoamiBackend.class);
-	public static String adminUser;
 
 	public static void main(String[] args) {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -21,10 +20,12 @@ public class WhoamiBackend {
 
 			Configuration val = mapper.readValue(new File("./keys.yml"), Configuration.class);
 			log.info(String.format("'%s'", val.getAdminUser()));
-			adminUser = val.getAdminUser();
+			AdminController.adminId = val.getAdminUser();
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}
+		
+		GameController.isGameOn = false;
 		SpringApplication.run(WhoamiBackend.class, args);
 	}
 

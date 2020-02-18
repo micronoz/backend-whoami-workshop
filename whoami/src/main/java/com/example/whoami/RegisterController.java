@@ -31,11 +31,8 @@ public class RegisterController {
       throw new UserNameTakenException();
     }
 
-    User myUser = new User(userName, userName.equals(WhoamiBackend.adminUser));
+    User myUser = new User(userName);
     this.uRep.save(myUser);
-
-    if (userName.equals(WhoamiBackend.adminUser))
-      AdminController.adminId = myUser.getId();
 
     log.info(myUser.toString());
     return myUser.getId();

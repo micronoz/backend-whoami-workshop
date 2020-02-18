@@ -16,4 +16,9 @@ public class ExceptionController {
     public ResponseEntity<Object> authException(UnauthorizedException exception) {
         return new ResponseEntity<>("Unauthorized operation.", HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
+
+    @ExceptionHandler(value = IllegalGameStateException.class)
+    public ResponseEntity<Object> gameStateException(IllegalGameStateException exception) {
+        return new ResponseEntity<>("Game state is not valid.", HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    }
 }

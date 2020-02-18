@@ -13,7 +13,9 @@ public class User {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String userName;
-    private Boolean isAdmin;
+    private String gamePartner;
+    private boolean isReady;
+    private boolean isAsking;
 
     protected User() {
     }
@@ -22,14 +24,9 @@ public class User {
         this.userName = userName;
     }
 
-    public User(String userName, Boolean isAdmin) {
-        this.userName = userName;
-        this.isAdmin = isAdmin;
-    }
-
     @Override
     public String toString() {
-        return String.format("User[id='%s', userName='%s', isAdmin='%s']", id, userName, isAdmin.toString());
+        return String.format("User[id='%s', userName='%s']", id, userName);
     }
 
     public String getId() {
@@ -40,7 +37,24 @@ public class User {
         return userName;
     }
 
-    public Boolean isAdmin() {
-        return isAdmin;
+    public String getPartner() {
+        return gamePartner;
+    }
+
+    public Boolean isAsking() {
+        return this.isAsking;
+    }
+
+    public void setPartner(String gamePartner) {
+        this.gamePartner = gamePartner;
+    }
+
+    public void setAsking() {
+        isAsking = true;
+    }
+
+    public void resetState() {
+        gamePartner = null;
+        isAsking = false;
     }
 }

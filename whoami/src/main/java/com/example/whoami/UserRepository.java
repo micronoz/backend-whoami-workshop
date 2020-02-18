@@ -14,5 +14,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
   @Transactional
   void deleteExcept(@Param("excludeId") String id);
 
+  @Query("SELECT u FROM User u WHERE u.isReady = true")
+  Iterable<User> findAllReady();
+
   User findById(String id);
 }

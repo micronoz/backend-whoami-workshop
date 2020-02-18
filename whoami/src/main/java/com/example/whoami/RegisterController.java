@@ -39,6 +39,6 @@ public class RegisterController {
     this.uRep.save(myUser);
 
     log.info(myUser.toString());
-    return myUser.getId();
+    return myUser.toString();
   }
 }

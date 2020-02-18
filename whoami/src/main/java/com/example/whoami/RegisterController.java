@@ -1,12 +1,11 @@
 package com.example.whoami;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +13,9 @@ import org.slf4j.LoggerFactory;
 @RestController
 public class RegisterController {
   private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
-  private UserRepository uRep;
 
-  public RegisterController(UserRepository uRep) {
-    this.uRep = uRep;
-  }
+  @Autowired
+  private UserRepository uRep;
 
   @GetMapping("/hello-world")
   @ResponseBody
@@ -29,16 +26,18 @@ public class RegisterController {
   @RequestMapping("/api/v1/user/register")
   @ResponseBody
   public String registerUser(@RequestParam("userName") String userName, UserRepository uRep) {
-    List<User> ret = this.uRep.findByUserName(userName);
-    log.info(String.format("Found %d entries", ret.size()));
-    if (ret.size() != 0) {
+    User ret = this.uRep.findByUserName(userName);
+    if (ret != null) {
       throw new UserNameTakenException();
     }
 
     User myUser = new User(userName, userName.equals(WhoamiBackend.adminUser));
     this.uRep.save(myUser);
 
+    if (userName.equals(WhoamiBackend.adminUser))
+      AdminController.adminId = myUser.getId();
+
     log.info(myUser.toString());
-    return myUser.toString();
+    return myUser.getId();
   }
 }

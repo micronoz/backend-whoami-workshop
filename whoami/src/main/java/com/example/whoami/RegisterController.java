@@ -38,8 +38,7 @@ public class RegisterController {
     User myUser = new User(userName, userName.equals(WhoamiBackend.adminUser));
     this.uRep.save(myUser);
 
-    log.info(String.format("Registered user: %s, with id: %s and isAdmin: %s", userName, myUser.getId().toString(),
-        myUser.isAdmin().toString()));
+    log.info(myUser.toString());
     return myUser.getId();
   }
 }

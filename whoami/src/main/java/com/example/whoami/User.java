@@ -23,12 +23,13 @@ public class User {
     }
 
     public User(String userName, Boolean isAdmin) {
+        this.userName = userName;
         this.isAdmin = isAdmin;
     }
 
     @Override
     public String toString() {
-        return String.format("User[id=%s, userName='%s', isAdmin='%s']", id, userName, isAdmin.toString());
+        return String.format("User[id='%s', userName='%s', isAdmin='%s']", id, userName, isAdmin.toString());
     }
 
     public String getId() {

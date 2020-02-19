@@ -22,7 +22,10 @@ public class AdminController {
         adminCheck(password);
         GameController.isGameOn = false;
         GameController.readyCheck = false;
-        uRep.findAll().forEach(user -> user.resetState());
+        uRep.findAll().forEach(user -> {
+            user.resetState();
+            uRep.save(user);
+        });
         mRep.deleteAll();
     }
 

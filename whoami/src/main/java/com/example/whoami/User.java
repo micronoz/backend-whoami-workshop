@@ -3,6 +3,10 @@ package com.example.whoami;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 
@@ -13,6 +17,8 @@ public class User {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String userName;
+
+    @OneToOne
     private User gamePartner;
     private boolean isReady;
     private boolean isTurn;

@@ -20,10 +20,11 @@ public class Message {
 
     }
 
-    public Message(String senderId, String receiverId, String message) {
+    public Message(String senderId, String receiverId, String message, boolean isQuestion) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.message = message;
+        this.isQuestion = isQuestion;
     }
 
     public String getContent() {

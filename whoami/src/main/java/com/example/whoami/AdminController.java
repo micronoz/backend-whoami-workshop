@@ -17,8 +17,8 @@ public class AdminController {
     MessageRepository mRep;
     public static String adminId;
 
-    @PostMapping("/api/v1/data/reset/game")
-    public void resetMessages(@RequestParam("password") String password) {
+    @PostMapping("/api/v1/game/reset")
+    public void resetGame(@RequestParam("password") String password) {
         adminCheck(password);
         GameController.isGameOn = false;
         GameController.readyCheck = false;
@@ -65,6 +65,8 @@ public class AdminController {
             firstUser.reverseTurn();
             firstUser.setPartner(secondUser);
             secondUser.setPartner(firstUser);
+            uRep.save(firstUser);
+            uRep.save(secondUser);
         }
 
         GameController.isGameOn = true;

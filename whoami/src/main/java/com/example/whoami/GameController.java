@@ -2,6 +2,7 @@ package com.example.whoami;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ public class GameController {
 
     @PostMapping("/api/v1/game/status")
     @ResponseBody
+    @ExceptionHandler(ExceptionController.class)
     @Async
     public GameState getStatus(@RequestParam("id") String id) {
         User myUser = uRep.findById(id);
@@ -58,10 +60,14 @@ public class GameController {
         User myUser = uRep.findById(id);
         if (myUser == null)
             throw new UnauthorizedException();
+        if (!myUser.isTurn())
+            throw new IllegalGameStateException("It is not your turn yet.");
         User yourUser = myUser.getPartner();
         myUser.reverseTurn();
-        yourUser.resetState();
-        mRep.save(new Message(id, yourUser.getId(), message));
+        yourUser.reverseTurn();
+        uRep.save(myUser);
+        uRep.save(yourUser);
+        mRep.save(new Message(id, yourUser.getId(), message, myUser.isAsking()));
     }
 
     @PostMapping("/api/v1/game/ready")
@@ -75,5 +81,6 @@ public class GameController {
             u.resetState();
             u.setReady();
         }
+        uRep.save(u);
     }
 }

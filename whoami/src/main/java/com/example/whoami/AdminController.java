@@ -22,6 +22,7 @@ public class AdminController {
         adminCheck(password);
         GameController.isGameOn = false;
         GameController.readyCheck = false;
+        GameController.endGame = false;
         uRep.findAll().forEach(user -> {
             user.resetState();
             uRep.save(user);
@@ -79,6 +80,12 @@ public class AdminController {
     public void askReady(@RequestParam("password") String password) {
         adminCheck(password);
         GameController.readyCheck = true;
+    }
+
+    @PostMapping("/api/v1/game/end")
+    public void endGame(@RequestParam("password") String password) {
+        adminCheck(password);
+        GameController.endGame = true;
     }
 
     private void adminCheck(String password) throws UnauthorizedException {

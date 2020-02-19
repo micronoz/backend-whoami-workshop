@@ -46,6 +46,8 @@ public final class App {
                     System.exit(0);
                 }
 
+            } else if (curState.gameInProgress && curState.gameEnded) {
+                System.out.println(curState.pair);
             } else if (curState.gameInProgress && curState.yourTurn) {
                 if (!printOnce) {
                     System.out.println("The game has started!");
@@ -62,10 +64,9 @@ public final class App {
                 } else {
                     giveAnswer();
                 }
-
             }
 
-            if (curState.gameInProgress) {
+            if (curState.gameInProgress && !curState.gameEnded) {
                 System.out.println("########### MESSAGE HISTORY ###########");
                 for (Message m : curState.messages)
                     System.out.println(m.content);

@@ -16,6 +16,7 @@ public class GameController {
     private MessageRepository mRep;
     public static boolean isGameOn;
     public static boolean readyCheck;
+    public static boolean endGame;
 
     @PostMapping("/api/v1/game/status")
     @ResponseBody
@@ -38,10 +39,17 @@ public class GameController {
         }
 
         else if (myUser.isReady()) {
+
             curState.messages = new ArrayList<Message>();
             mRep.findBySenderIdOrReceiverId(id.id).forEach(curState.messages::add);
             curState.yourTurn = myUser.isTurn();
             curState.isAsking = myUser.isAsking();
+
+            if (endGame) {
+                curState.pair = String.format("Your partner was: '%s'", myUser.getPartner().getUserName());
+                curState.gameEnded = true;
+            }
+
             return curState;
         }
 

@@ -2,7 +2,9 @@ ready:
 	curl -X POST -d "password=mynameisnabi" localhost:8080/api/v1/game/ready_check
 start:
 	curl -X POST -d "password=mynameisnabi" localhost:8080/api/v1/game/start
-delete_users: reset_game
+delete: reset
 	curl -X POST -d "password=mynameisnabi" localhost:8080/api/v1/data/reset/users
-reset_game:
+reset:
 	curl -X POST -d "password=mynameisnabi" localhost:8080/api/v1/game/reset
+end:
+	curl -X POST -d "password=mynameisnabi" localhost:8080/api/v1/game/end

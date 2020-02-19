@@ -13,7 +13,7 @@ public class User {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String userName;
-    private String gamePartner;
+    private User gamePartner;
     private boolean isReady;
     private boolean isTurn;
     private boolean isAsking;
@@ -38,7 +38,7 @@ public class User {
         return userName;
     }
 
-    public String getPartner() {
+    public User getPartner() {
         return gamePartner;
     }
 
@@ -46,7 +46,7 @@ public class User {
         return isAsking;
     }
 
-    public void setPartner(String gamePartner) {
+    public void setPartner(User gamePartner) {
         this.gamePartner = gamePartner;
     }
 
@@ -62,8 +62,12 @@ public class User {
         return isTurn;
     }
 
-    public void setTurn() {
-        isTurn = true;
+    public void reverseTurn() {
+        isTurn = !isTurn;
+    }
+
+    public boolean isReady() {
+        return isReady;
     }
 
     public void resetState() {

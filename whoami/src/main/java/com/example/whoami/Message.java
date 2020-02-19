@@ -20,7 +20,9 @@ public class Message {
 
     }
 
-    public Message(String message) {
+    public Message(String senderId, String receiverId, String message) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
         this.message = message;
     }
 

@@ -62,9 +62,9 @@ public class AdminController {
             User firstUser = users.get(i);
             User secondUser = users.get(i + 1);
             firstUser.setAsking();
-            firstUser.setTurn();
-            firstUser.setPartner(secondUser.getId());
-            secondUser.setPartner(firstUser.getId());
+            firstUser.reverseTurn();
+            firstUser.setPartner(secondUser);
+            secondUser.setPartner(firstUser);
         }
 
         GameController.isGameOn = true;

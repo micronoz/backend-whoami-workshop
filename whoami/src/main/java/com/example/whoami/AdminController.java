@@ -17,47 +17,42 @@ public class AdminController {
     MessageRepository mRep;
     public static String adminId;
 
-    @PostMapping("/api/v1/data/reset/msg")
+    @PostMapping("/api/v1/data/reset/game")
     public void resetMessages(@RequestParam("password") String password) {
-        if (!isAdmin(password)) {
-            throw new UnauthorizedException();
-        }
+        adminCheck(password);
+        GameController.isGameOn = false;
+        GameController.readyCheck = false;
+        uRep.findAll().forEach(user -> user.resetState());
         mRep.deleteAll();
     }
 
     @PostMapping("/api/v1/data/reset/users")
     public void resetUsers(@RequestParam("password") String password) {
-        if (!isAdmin(password)) {
-            throw new UnauthorizedException();
-        }
+        adminCheck(password);
         uRep.deleteAll();
     }
 
     @PostMapping("/api/v1/data/users")
     public Iterable<User> getUsers(@RequestParam("password") String password) {
-        if (!isAdmin(password)) {
-            throw new UnauthorizedException();
-        }
+        adminCheck(password);
         return uRep.findAll();
     }
 
     @PostMapping("/api/v1/data/users/count")
     public Long getUserCount(@RequestParam("password") String password) {
-        if (!isAdmin(password)) {
-            throw new UnauthorizedException();
-        }
+        adminCheck(password);
         return uRep.count();
     }
 
     @PostMapping("/api/v1/game/start")
     public void startGame(@RequestParam("password") String password) {
-        if (!isAdmin(password)) {
-            throw new UnauthorizedException();
-        }
+        adminCheck(password);
 
-        if (uRep.count() % 2 != 0) {
-            throw new IllegalGameStateException();
-        }
+        if (!GameController.readyCheck)
+            throw new IllegalGameStateException("Ready check not done.");
+
+        if (uRep.count() % 2 != 0)
+            throw new IllegalGameStateException("Odd number of players.");
 
         List<User> users = new ArrayList<User>();
         uRep.findAllReady().forEach(users::add);
@@ -67,6 +62,7 @@ public class AdminController {
             User firstUser = users.get(i);
             User secondUser = users.get(i + 1);
             firstUser.setAsking();
+            firstUser.setTurn();
             firstUser.setPartner(secondUser.getId());
             secondUser.setPartner(firstUser.getId());
         }
@@ -74,10 +70,14 @@ public class AdminController {
         GameController.isGameOn = true;
     }
 
-    // @PostMapping("/api/v1/game/ready")
-    // public 
+    @PostMapping("/api/v1/game/ready_check")
+    public void askReady(@RequestParam("password") String password) {
+        adminCheck(password);
+        GameController.readyCheck = true;
+    }
 
-    private Boolean isAdmin(String password) {
-        return password.equals(adminId);
+    private void adminCheck(String password) throws UnauthorizedException {
+        if (!password.equals(adminId))
+            throw new UnauthorizedException();
     }
 }

@@ -11,29 +11,21 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String question;
-    private int answer;
+    private String message;
     private String senderId;
     private String receiverId;
+    private boolean isQuestion;
 
     protected Message() {
 
     }
 
-    public Message(String question) {
-        this.question = question;
-    }
-
-    public Message(int answer) {
-        this.answer = answer;
+    public Message(String message) {
+        this.message = message;
     }
 
     public String getContent() {
-        return this.question;
-    }
-
-    public int getAnswer() {
-        return this.answer;
+        return this.message;
     }
 
     public String getSender() {
@@ -44,9 +36,17 @@ public class Message {
         return receiverId;
     }
 
+    public Boolean isQuestion() {
+        return isQuestion;
+    }
+
+    public void makeQuestion() {
+        this.isQuestion = true;
+    }
+
     @Override
     public String toString() {
-        return "";
+        return this.message;
     }
 
 }

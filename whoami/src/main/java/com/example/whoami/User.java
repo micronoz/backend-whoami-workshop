@@ -15,6 +15,7 @@ public class User {
     private String userName;
     private String gamePartner;
     private boolean isReady;
+    private boolean isTurn;
     private boolean isAsking;
 
     protected User() {
@@ -42,7 +43,7 @@ public class User {
     }
 
     public Boolean isAsking() {
-        return this.isAsking;
+        return isAsking;
     }
 
     public void setPartner(String gamePartner) {
@@ -53,8 +54,22 @@ public class User {
         isAsking = true;
     }
 
+    public void setReady() {
+        isReady = true;
+    }
+
+    public Boolean isTurn() {
+        return isTurn;
+    }
+
+    public void setTurn() {
+        isTurn = true;
+    }
+
     public void resetState() {
         gamePartner = null;
         isAsking = false;
+        isReady = false;
+        isTurn = false;
     }
 }

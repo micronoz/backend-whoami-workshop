@@ -1,12 +1,12 @@
 package com.example.whoami;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 @RestController
 public class GameController {
@@ -19,12 +19,13 @@ public class GameController {
 
     @PostMapping("/api/v1/game/status")
     @ResponseBody
-    public GameState getStatus(@RequestParam("id") String id) {
-        User myUser = uRep.findById(id);
+    public GameState getStatus(@RequestBody IncomingUserId id) {
+        User myUser = uRep.findById(id.id);
         if (myUser == null) {
             throw new UnauthorizedException();
         }
         GameState curState = new GameState();
+        curState.gameInProgress = isGameOn;
 
         if (!readyCheck) {
             throw new IllegalGameStateException("Game has not started yet.");
@@ -38,8 +39,9 @@ public class GameController {
 
         else if (myUser.isReady()) {
             curState.messages = new ArrayList<Message>();
-            mRep.findBySenderIdOrReceiverId(id).forEach(curState.messages::add);
+            mRep.findBySenderIdOrReceiverId(id.id).forEach(curState.messages::add);
             curState.yourTurn = myUser.isTurn();
+            curState.isAsking = myUser.isAsking();
             return curState;
         }
 
@@ -49,11 +51,11 @@ public class GameController {
     }
 
     @PostMapping("/api/v1/game/send")
-    public void sendMessage(@RequestParam("id") String id, @RequestParam("message") String message) {
+    public void sendMessage(@RequestBody IncomingMessage m) {
         if (!isGameOn) {
             throw new IllegalGameStateException("Game has not started yet.");
         }
-        User myUser = uRep.findById(id);
+        User myUser = uRep.findById(m.id);
         if (myUser == null)
             throw new UnauthorizedException();
         if (!myUser.isTurn())
@@ -63,12 +65,12 @@ public class GameController {
         yourUser.reverseTurn();
         uRep.save(myUser);
         uRep.save(yourUser);
-        mRep.save(new Message(id, yourUser.getId(), message, myUser.isAsking()));
+        mRep.save(new Message(m.id, yourUser.getId(), m.message, myUser.isAsking()));
     }
 
     @PostMapping("/api/v1/game/ready")
-    public void getReady(@RequestParam("id") String id) {
-        User u = uRep.findById(id);
+    public void getReady(@RequestBody IncomingUserId id) {
+        User u = uRep.findById(id.id);
 
         if (u != null) {
             if (isGameOn && readyCheck) {

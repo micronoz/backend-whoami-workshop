@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
     @ExceptionHandler(value = UserNameTakenException.class)
     public ResponseEntity<Object> userException(UserNameTakenException exception) {
-        return new ResponseEntity<>("Username is not available.", HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>("Username is not available.\n", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
     public ResponseEntity<Object> authException(UnauthorizedException exception) {
-        return new ResponseEntity<>("Unauthorized operation.", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>("Unauthorized operation.\n", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = IllegalGameStateException.class)
     public ResponseEntity<Object> gameStateException(IllegalGameStateException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(exception.getMessage() + "\n", HttpStatus.FORBIDDEN);
     }
 }

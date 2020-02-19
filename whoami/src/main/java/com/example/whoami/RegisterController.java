@@ -1,14 +1,14 @@
 package com.example.whoami;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 public class RegisterController {
@@ -23,15 +23,14 @@ public class RegisterController {
     return "Hello World!";
   }
 
-  @RequestMapping("/api/v1/user/register")
+  @PostMapping("/api/v1/user/register")
   @ResponseBody
-  public String registerUser(@RequestParam("userName") String userName, UserRepository uRep) {
-    User ret = this.uRep.findByUserName(userName);
+  public String registerUser(@RequestBody IncomingUserName userName) {
+    User ret = this.uRep.findByUserName(userName.userName);
     if (ret != null) {
       throw new UserNameTakenException();
     }
-
-    User myUser = new User(userName);
+    User myUser = new User(userName.userName);
     this.uRep.save(myUser);
 
     log.info(myUser.toString());

@@ -8,15 +8,13 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>whoami</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>whoami</name>
+	<artifactId>backend</artifactId>
+	<version>1.0.0</version>
+	<name>whoami-workshop</name>
 	<description>Demo project for Spring Boot</description>
 
 
 	<dependencies>
-
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
@@ -66,7 +64,6 @@
 				<version>2.22.0</version>
 			</plugin>
 		</plugins>
-
 	</build>
 
 	<repositories>
@@ -99,5 +96,4 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
 </project>

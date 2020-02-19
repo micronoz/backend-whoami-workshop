@@ -21,8 +21,6 @@ public class GameController {
 
     @PostMapping("/api/v1/game/status")
     @ResponseBody
-    @ExceptionHandler(ExceptionController.class)
-    @Async
     public GameState getStatus(@RequestParam("id") String id) {
         User myUser = uRep.findById(id);
         if (myUser == null) {

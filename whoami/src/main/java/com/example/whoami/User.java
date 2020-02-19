@@ -5,8 +5,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 

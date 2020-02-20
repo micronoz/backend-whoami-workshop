@@ -14,12 +14,10 @@ public class User {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-
     private String userName;
 
     @OneToOne
     private User gamePartner;
-    
     private boolean isReady;
     private boolean isTurn;
     private boolean isAsking;

@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 
 public final class App {
     private static String id;
-    private static final String base = "http://localhost:8080";
+    private static final String base = "https://whoami-workshop.azurewebsites.net";
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final Console console = System.console();
     private static final Gson g = new Gson();

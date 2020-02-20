@@ -58,24 +58,6 @@ public class GameController {
         }
     }
 
-    @PostMapping("/api/v1/game/send")
-    public void sendMessage(@RequestBody IncomingMessage m) {
-        if (!isGameOn) {
-            throw new IllegalGameStateException("Game has not started yet.");
-        }
-        User myUser = uRep.findById(m.id);
-        if (myUser == null)
-            throw new UnauthorizedException();
-        if (!myUser.isTurn())
-            throw new IllegalGameStateException("It is not your turn yet.");
-        User yourUser = myUser.getPartner();
-        myUser.reverseTurn();
-        yourUser.reverseTurn();
-        uRep.save(myUser);
-        uRep.save(yourUser);
-        mRep.save(new Message(m.id, yourUser.getId(), m.message, myUser.isAsking()));
-    }
-
     @PostMapping("/api/v1/game/ready")
     public void getReady(@RequestBody IncomingUserId id) {
         User u = uRep.findById(id.id);
